@@ -1,6 +1,6 @@
 /node_modules
-.DS_Store
-.gitignore
+/.DS_Store
+/.gitignore
 .idea/.gitignore
 .idea/modules.xml
 .idea/mychalange.iml

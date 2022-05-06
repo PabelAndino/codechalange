@@ -43,7 +43,7 @@
  */
 
 /**
- * Classes 127 lines
+ * Classes
  */
 
 class Item {
@@ -103,26 +103,24 @@ class StoreInventory {
     }
 }
 
-
 /**
  * Implementation
  */
 
 let items = [
-    new Item("Apple", 10, 10),
+    new Item("Apple", 5, 4),
     new Item("Banana", 7, 27),
     new Item("Strawberry", 5, 10),
-    new Item("Cheddar Cheese", 10, 16),
+    new Item("Cheddar Cheese", 10, 10),
     new Item("Instant Ramen", 0, 5),
     // this Organic item does not work properly yet
-    new Item("Organic Avocado", 5, 16)
+    new Item("Organic Avocado", 3, 16)
 ];
-
 
 
 let storeInventory = new StoreInventory(items);
 
-let days: number = 4;
+let days: number = 10;
 
 for (let i = 1; i <= days; i++) {
     console.log("Day " + i + "  ---------------------------------");
@@ -136,7 +134,6 @@ for (let i = 1; i <= days; i++) {
     console.log();
     storeInventory.updateQuality();
 }
-
 
 /**
  * Unit Tests
