@@ -1,106 +1,120 @@
-/*Interface of types that should be in separate directory*/
+/*Interface of types*/
 interface Items {
     name: string
     category: string
     sellIn: number
     quality: number
-    outdated?: boolean
+    forSale: boolean
 }
 
+/*Function to manage the logic*/
+const productsOperations = (products: Items[], days: number) => {
 
-const products: Items[] = [
-    {name: 'Apple', category: 'Fruits', sellIn: 10, quality: 10, outdated:false},
-    {name: 'Banana', category: 'Fruits', sellIn: 7, quality: 3, outdated:false},
-    {name: 'Strawberry', category: 'Fruits', sellIn: 5, quality: 10, outdated:false},
-    {name: 'Cheddar Cheese', category: 'Cheese', sellIn: 10, quality: 16, outdated:false},
-    {name: 'Instant Ramen', category: 'Instant Food', sellIn: 5, quality: 16, outdated:false},
-    {name: 'Organic Avocado', category: 'Organic', sellIn: 5, quality: 16, outdated:false},
-
-]
-
-const getGroceryCategory = (products: Items[]) => {
-    const fruits = products.filter(data => data.category === 'Fruits')
-    const cheese = products.filter(data => data.category === 'Cheese')
-    const instantFood = products.filter(data => data.category === 'Instant Food')
-    const organic = products.filter(data => data.category === 'Organic')
-    return {
-        fruits,
-        cheese,
-        instantFood,
-        organic
+    let allProducts = []
+    if (allProducts.length === 0) {
+        allProducts.push(...[products.map(data => data)])
     }
-}
+    console.log(`day 1 -----------`)
+    console.table(products)
 
-const calculate = (products: any) => { //set tiene que agregar la interface que tiene todos los array de las categorias
-    const {fruits, cheese, instantFood, organic} = products
-    let newFruits = []
-    if(newFruits.length === 0){
-        newFruits.push(...fruits.map((data:any) => data))
-    }
-
-    for(let i =1; i<=4; i++){
-        newFruits =  newFruits.map((data)=>{
-            if(data.quality > 0){
-                return  {
+    for (let i = 2; i <= days; i++) {
+        products = products.map((data) => {
+            if (data.sellIn === 0 && data.name !== 'Instant Ramen' && data.name !== 'Cheddar Cheese') {
+                return {
                     ...data,
-                    quality: data.quality - 1,
-                    sellIn: data.sellIn - 1,
+                    quality: data.quality > 0 && data.quality != 1 ? data.quality - 2 : 0,
+                    sellIn: data.sellIn > 0 ? data.sellIn - 1 : 0,
                 }
             }
-            if(data.quality <= 0){
-                return  {
+
+            if (data.name === 'Cheddar Cheese') {
+                return {
                     ...data,
-                    quality: 0,
-                    outdated:true
+                    quality: data.quality < 25 ? data.quality + 1 : 25,
+                    sellIn: data.sellIn > 0 ? data.sellIn - 1 : 0,
                 }
             }
-    })
 
-        console.log(`day ${i} -----------`)
-        console.table(newFruits)
+            if (data.name === 'Instant Ramen') {
+                return {
+                    ...data,
+                    sellIn: data.sellIn > 0 ? data.sellIn - 1 : 0,
+                    forSale: false
+                }
+            }
 
-    }
-}
+            if (data.category === 'Organic') {
+                return {
+                    ...data,
+                    quality: data.quality > 0 && data.quality != 1 ? data.quality - 2 : 0,
+                    sellIn: data.sellIn > 0 ? data.sellIn - 1 : 0,
+                    forSale: i < 5
+                }
+            }
 
-const newTest = (products: Items[]) => {
-
-    const newarr = []
-    if(newarr.length === 0){
-        newarr.push(...products.map(data => data))
-    }
-
-    for(let i = 1; i <= 7; i ++){
-       const outro = newarr.map((data)=> {
-           if(data.quality > 0){
-               if( i >= 5){
-                   return {
-                       ...data,
-                       outdated: true
-                   }
-
-                   //newarr.push(...newData)
-
-               }
-               return {
-                   ...data,
-                   quality : data.quality - 1
-               }
-           }
+            return {
+                ...data,
+                quality: data.quality > 0 ? data.quality - 1 : 0,
+                sellIn: data.sellIn > 0 ? data.sellIn - 1 : 0,
+            }
 
         })
-
-        console.log(outro)
+        console.log(`day ${i} -----------`)
+        console.table(products)
+        allProducts.push(...[products.map(data => data)])
     }
 
+    return allProducts
 
-
-    //console.log(newarr)
 
 }
 
-//newTest(products)
+/*Unit Test*/
+let chai = require('chai')
+let expect = chai.expect
 
-calculate(getGroceryCategory(products))
+try {
+
+    const productsTest: Items[] = [
+        {name: 'Apple', category: 'Fruits', sellIn: 3, quality: 20, forSale: true},
+        {name: 'Banana', category: 'Fruits', sellIn: 7, quality: 3, forSale: true},
+        {name: 'Strawberry', category: 'Fruits', sellIn: 5, quality: 10, forSale: true},
+        {name: 'Cheddar Cheese', category: 'Cheese', sellIn: 4, quality: 16, forSale: true},
+        {name: 'Instant Ramen', category: 'Instant Food', sellIn: 5, quality: 16, forSale: true},
+        {name: 'Organic Avocado', category: 'Organic', sellIn: 5, quality: 16, forSale: true},
+
+    ]
+
+    const apple = 0
+    const banana = 1
+    const strawberry = 2
+    const cheddar_cheese = 3
+    const instant_ramen = 4
+    const organic_avocado = 5
+
+    const testItems = productsOperations(productsTest, 10)
+
+    /*Test Regular products*/
+    expect(testItems[0][apple].quality).to.equal(20);
+    expect(testItems[1][apple].quality).to.equal(19);
+
+    /*Cheddar Cheese test*/
+    expect(testItems[1][cheddar_cheese].quality).to.equal(17);
+    expect(testItems[9][cheddar_cheese].quality).to.equal(25);
+
+    /*Ramen test*/
+    expect(testItems[2][instant_ramen].forSale).to.equal(false);
+
+    /*Organic food test afer or before 5  days*/
+    expect(testItems[3][organic_avocado].forSale).to.equal(true)
+    expect(testItems[6][organic_avocado].forSale).to.equal(false)
+
+    console.log(`✅ Tests passed!`);
+
+} catch (e) {
+    console.warn(`❌ Tests failed`);
+    console.error(e);
+}
 
 
 
