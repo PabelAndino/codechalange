@@ -14,6 +14,12 @@
 
 This is the code fixed to the Grocery control system where I added new functionality to work with the new requirements and fixed the general functionality.  
 
+
+### Project structure
+- Old code is in the `oldGroceryCode.ts`
+- New modified code is in `newGroceryCode.ts`
+- Suggestion changes code is in `otherLogic.ts` 
+
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
@@ -77,8 +83,6 @@ According to the established requirements, for the system to work correctly, cer
 
 <!-- CONTRIBUTING -->
 ## New code suggestion
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **otherLogic.ts**.
 
 For better readability of the code, it is possible to separate the logic and make a separate verification by categories, where the different objects of the same are obtained and to be able to carry out different operations separately. As a small example is shown in the  **/otherLogic.ts** file.
 
