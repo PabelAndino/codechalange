@@ -60,8 +60,7 @@ According to the established requirements, for the system to work correctly, cer
 
 
 <!-- ROADMAP -->
-## Changes
-
+## Changes details
 - [x] Added a `forSale` property that help to know if a product may or not be sold.
 - [x] Added a `category` property to now what category a product most have.
 - [x] Now I use functions instead of classes.
